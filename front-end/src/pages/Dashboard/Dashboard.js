@@ -22,11 +22,9 @@ function Dashboard({ date }) {
   useEffect(loadDashboard, [currentDate]);
 
   function loadDashboard() {
-    console.log("loadDashboard ran");
     const abortController = new AbortController();
     const tablesAbortController = new AbortController();
     setReservationsError(null);
-    console.log("date", date);
     listReservations({ date: currentDate }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
@@ -72,10 +70,9 @@ function Dashboard({ date }) {
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Tables</h4>
       </div>
-      <TablesList tables={tables} />
+      <TablesList tables={tables} onFinish={loadDashboard}/>
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
     </main>
   );
 }

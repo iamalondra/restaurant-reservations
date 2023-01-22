@@ -15,9 +15,7 @@ function ReservationForm({onSubmit, initialFormState}) {
 
   //TODO: write a handel change function
   const handleChange = ({ target }) => {
-    console.log("handleChange");
     const value = target.value;
-    console.log("value form", value)
     setFormData({
       ...formData,
       [target.name]: value,

@@ -13,9 +13,6 @@ function list(free){
   .select("*")
   .orderBy("table_name")
 
-  console.log("free type", typeof free)
-  console.log("free value", free)
-
   if(free !== undefined){
     if(free === "false"){
       //check the res_id column 

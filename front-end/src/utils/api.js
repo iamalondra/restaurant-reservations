@@ -104,3 +104,8 @@ export async function createTable(newTable){
   return await fetchJson(url, {headers, method:"POST", body:JSON.stringify(newTable)})
 }
 
+export async function freeTable(tableId, reservation_id){
+  const url = new URL(`${API_BASE_URL}/tables/${tableId}/seat`)
+  return await fetchJson(url, {headers, method:"DELETE", body:JSON.stringify({data: {reservation_id}})})
+}
+

@@ -23,13 +23,15 @@ function validateTableName(req, res, next) {
 }
 
 //TODO: check if table id is occupied
-function tableNotOccupied(req, res, next) {
+async function tableNotOccupied(req, res, next) {
   if (!res.locals.table.reservation_id) {
     return next({
       status: 400,
       message: `table ${res.locals.table.table_id} is not occupied`,
     });
   }
+  const reservation = await resService.read(res.locals.table.reservation_id);
+  res.locals.reservation = reservation;
   next();
 }
 
@@ -71,9 +73,9 @@ function tableOccupied(req, res, next) {
   if (res.locals.table.reservation_id) {
     return next({
       status: 400,
-      message: `table ${res.locals.table.reservation_id} is occupied`,
+      message: `table ${res.locals.table.table_id} is occupied`,
     });
-  } 
+  }
   next();
 }
 
@@ -159,14 +161,18 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
-  update: [
+  update: [ 
+    asyncErrorBoundary(tableExists),
     bodyHasData("reservation_id"),
     asyncErrorBoundary(reservationExists),
-    asyncErrorBoundary(tableExists),
     seatAvailability,
     tableOccupied,
     seat, 
     asyncErrorBoundary(update),
   ],
-  destroy: [ asyncErrorBoundary(reservationExists), asyncErrorBoundary(tableExists), tableNotOccupied, asyncErrorBoundary(destroy)],
+  destroy: [ 
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(tableNotOccupied), 
+    asyncErrorBoundary(destroy)
+  ],
 };

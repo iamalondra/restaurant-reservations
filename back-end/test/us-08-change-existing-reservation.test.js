@@ -53,11 +53,6 @@ describe("US-08 - Change an existing reservation", () => {
         .where("reservation_id", 1)
         .first();
 
-      const allReservations = await knex("reservations")
-        .select("*");
-      
-      console.log("all res", allReservations)
-
       expect(reservation).not.toBeUndefined();
 
       Object.entries(data).forEach(

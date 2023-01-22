@@ -26,12 +26,11 @@ function EditReservation() {
     };
   }
 
-  console.log("reservation edit", reservation);
   const handleSubmit = async (formData) => {
     //update the reservation req to the backend
     await updateReservation({ data: formData });
     //send to previous
-    history.goBack();
+    history.push(`/dashboard?date=${formData.reservation_date}`);
   };
 
   return (

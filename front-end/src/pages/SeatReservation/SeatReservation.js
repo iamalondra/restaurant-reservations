@@ -60,9 +60,9 @@ function SeatReservation() {
       <form onSubmit={handleSubmit}>
         <label>
           Table:
-          <select onChange={handleChange} value={selectedTable}>
+          <select name="table_id" onChange={handleChange} value={selectedTable}>
             {tables.map((table) => (
-              <option key={table.table_id} value={table.table_id}>{table.table_name}</option>
+              <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
             ))}
           </select>
         </label>

@@ -32,7 +32,6 @@ async function timeSlotAvailable(req, res, next){
   const {reservation_time, reservation_date} = req.body.data
   const reservations = await service.getResByDate(reservation_date, reservation_time)
   const filteredReservations = reservations.filter((reservation) => reservation.reservation_id !== Number(req.params.reservation_id))
-  console.log("filtered Reservations BE", filteredReservations)
   if(filteredReservations.length === 0){
     return next();
   }
@@ -100,7 +99,7 @@ async function reservationExists(req, res, next) {
 //TODO: validate status as booked 
 async function validateStatusBooked(req, res, next){
   const status = req.body.data.status
-   if(status !== "booked"){
+   if(status && status !== "booked"){
      return next({status: 400, message:`reservation status is ${status}`})
   }
    next();
@@ -146,7 +145,10 @@ async function list(req, res) {
 }
 
 async function create(req, res, next) {
-  const data = await service.create(req.body.data);
+  const data = await service.create({
+    ...req.body.data,
+    status: "booked"
+  });
   res.status(201).json({ data: data[0] });
 }
 
@@ -155,7 +157,6 @@ async function read(req, res, next) {
 }
 
 async function update(req, res, next) {
-  console.log("the top of update")
   const updatedReservation = {
     ...req.body.data,
     reservation_id: Number(req.params.reservation_id),
@@ -180,14 +181,14 @@ module.exports = {
     bodyHasData("reservation_date"),
     bodyHasData("reservation_time"),
     bodyHasData("people"),
-    bodyHasData("status"),
+    //bodyHasData("status"),
     dateIsValid,
     peopleIsNumber,
     timeIsValid,
     closedOnTue,
     isOpen, 
     reservationInPresent, 
-    timeSlotAvailable,
+    //timeSlotAvailable,
     validateStatusBooked,
     asyncErrorBoundary(create),
   ],
@@ -208,7 +209,7 @@ module.exports = {
     closedOnTue,
     isOpen, 
     reservationInPresent, 
-    timeSlotAvailable,
+    // timeSlotAvailable,
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(update)
   ],

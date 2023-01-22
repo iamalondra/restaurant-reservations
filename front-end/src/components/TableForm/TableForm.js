@@ -9,9 +9,7 @@ function TableForm({ onSubmit, initialFormState }) {
   const history = useHistory();
 
   const handleChange = ({ target }) => {
-    console.log("handleChange");
     const value = target.value;
-    console.log("value form", value);
     setFormData({
       ...formData,
       [target.name]: value,
@@ -23,7 +21,11 @@ function TableForm({ onSubmit, initialFormState }) {
 
     try {
       //const newReservation = await createReservation({data: formattedFormData});
-      await onSubmit(formData);
+      if(formData.table_name && formData.capacity && formData.capacity > 0){
+        await onSubmit(formData);
+      }else{
+        throw new Error("invalid formData")
+      } 
     } catch (error) {
       console.log(error.message);
       setError(error);

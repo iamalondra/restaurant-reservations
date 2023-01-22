@@ -9,7 +9,7 @@ function NewTable() {
 
   const initialFormState={
     table_name:"", 
-    capacity: 1
+    capacity: ""
   }
 
   const handleSubmit = async (formData) => {

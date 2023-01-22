@@ -2,7 +2,7 @@ import ReservationListItem from "../ReservationListItem/ReservationListItem";
 
 export default function ReservationList({ reservations, onCancel, currentDate }) {
   if (reservations.length === 0) {
-    return <p>There are no reservations for {currentDate} </p>;
+    return <p>No reservations found</p>;
   }
   return (
     <ul>

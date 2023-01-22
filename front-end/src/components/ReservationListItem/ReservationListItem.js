@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import { updateReservation } from "../../utils/api";
 
 export default function ReservationListItem({ reservation, onCancel }) {
-  console.log("reservation", reservation);
   const handleCancel = async () => {
     if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
       const updatedReservation = {
@@ -23,7 +22,7 @@ export default function ReservationListItem({ reservation, onCancel }) {
       <div>
         <p>Name: {reservation.first_name}</p>
         <p>Number: {reservation.mobile_number}</p>
-        <p>Status: {reservation.status}</p>
+        <p data-reservation-id-status={reservation.reservation_id} >Status: {reservation.status}</p>
       </div>
       <div>
         {reservation.status === "seated" ? (

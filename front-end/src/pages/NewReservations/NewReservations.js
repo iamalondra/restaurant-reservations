@@ -19,8 +19,7 @@ function NewReservations() {
 
   //TODO: write a submit handler
   const handleSubmit = async (formData) => {
-    console.log("submitted:", formData);
-
+    
     const data = {
       ...formData,
       status: "booked",

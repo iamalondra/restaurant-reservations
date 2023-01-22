@@ -131,7 +131,6 @@ describe("US-06 - Reservation status", () => {
           .put(`/reservations/${reservationOne.reservation_id}/status`)
           .set("Accept", "application/json")
           .send({ data: { status } });
-        //console.log("response -test", response.body)
         expect(response.body.data).toHaveProperty("status", status);
         expect(response.status).toBe(200);
       }
