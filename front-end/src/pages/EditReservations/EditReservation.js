@@ -20,7 +20,6 @@ function EditReservation() {
     singleReservation(reservation_id, abortController.signal)
       .then(setReservation)
       .catch(setReservationError);
-
     return () => {
       abortController.abort();
     };

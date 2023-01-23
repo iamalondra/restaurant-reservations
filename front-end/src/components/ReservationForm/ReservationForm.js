@@ -14,7 +14,10 @@ function ReservationForm({ onSubmit, initialFormState }) {
 
   //TODO: write a handel change function
   const handleChange = ({ target }) => {
-    const value = target.value;
+    let value = target.value;
+    if(target.name === "mobile_number"){
+      value = value.replace(/\D/g,'');
+    }
     setFormData({
       ...formData,
       [target.name]: value,
@@ -27,7 +30,12 @@ function ReservationForm({ onSubmit, initialFormState }) {
 
     try {
       //const newReservation = await createReservation({data: formattedFormData});
-      await onSubmit(formData);
+      console.log("people value from form", typeof formData.people)
+      const formattedFormData = {
+        ...formData, 
+        people: Number(formData.people)
+      }
+      await onSubmit(formattedFormData);
     } catch (error) {
       console.log(error.message);
       setError(error);
@@ -40,6 +48,7 @@ function ReservationForm({ onSubmit, initialFormState }) {
     console.log("canceled");
     history.goBack();
   };
+
 
   return (
     <>

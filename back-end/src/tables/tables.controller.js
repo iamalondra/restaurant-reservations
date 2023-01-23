@@ -1,6 +1,7 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./tables.service");
 const resService = require("../reservations/reservations.service");
+const moment = require("moment")
 
 //TODO: validate newTable
 function bodyHasData(propertyName) {
@@ -90,6 +91,15 @@ async function reservationExists(req, res, next) {
   return next({ status: 404, message: `reservation ${id} not found` });
 }
 
+async function isReservationToday(req, res, next){
+  const date = moment(res.locals.reservation.reservation_date, "YYYY-MM-DD")
+  let today = moment().startOf("day")
+  if(date.startOf("day").isSame(today)){
+    return next()
+  }
+  return next({status:400, message: `can only seat reservations for ${today.format("LL")}. This reservation is for ${date.format("LL")}`})
+}
+
 //TODO: check if reservation is seated 
 async function seat(req, res, next){
   const status = res.locals.reservation.status
@@ -167,6 +177,7 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     seatAvailability,
     tableOccupied,
+    isReservationToday,
     seat, 
     asyncErrorBoundary(update),
   ],

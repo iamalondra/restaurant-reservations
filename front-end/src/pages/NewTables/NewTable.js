@@ -18,7 +18,7 @@ function NewTable() {
       capacity: Number(formData.capacity),
     };
 
-    const newTable = await createTable({data})
+    await createTable({data})
     history.push("/dashboard")
   }
   return (

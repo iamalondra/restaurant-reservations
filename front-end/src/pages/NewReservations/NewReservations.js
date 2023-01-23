@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ReservationForm from "../../components/ReservationForm/ReservationForm";
 import { createReservation } from "../../utils/api";

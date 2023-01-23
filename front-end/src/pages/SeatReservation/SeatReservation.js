@@ -26,8 +26,8 @@ function SeatReservation() {
     const tablesAbortController = new AbortController();
     listTables({ occupied: false }, tablesAbortController.signal)
       .then((tables) => {
-        setTables(tables)
-        setSelectedTable(tables[0].table_id)
+        setTables(tables);
+        setSelectedTable(tables[0].table_id);
       })
       .catch(setTablesError);
     singleReservation(reservation_id, abortController.signal)
@@ -66,6 +66,20 @@ function SeatReservation() {
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={reservationError} />
       <ErrorAlert error={error} />
+      {reservation && (
+        <div className="d-flex align-items-md-center reservation-info col-lg-6 p-0 pr-sm-2 mb-2 mb-lg-0 flex-column flex-md-row">
+          <p className="m-0 mr-5 text-nowrap">Name: {reservation.first_name}</p>
+          <p className="m-0 mr-5 text-nowrap">Number: {reservation.mobile_number}</p>
+          <p
+            className="m-0 mr-5 text-nowrap"
+            data-reservation-id-status={reservation.reservation_id}
+          >
+            Status: {reservation.status}
+          </p>
+          <p className="m-0 text-nowrap">People: {reservation.people}</p>
+        </div>
+      )}
+
       <form
         className="seat-form rounded p-3 mb-3 d-flex flex-column"
         onSubmit={handleSubmit}
@@ -86,7 +100,9 @@ function SeatReservation() {
             ))}
           </select>
         </div>
-        <button className="seat-form-btn btn btn-primary" type="submit">seat</button>
+        <button className="seat-form-btn btn btn-primary" type="submit">
+          seat
+        </button>
       </form>
     </main>
   );

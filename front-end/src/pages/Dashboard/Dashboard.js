@@ -3,7 +3,6 @@ import { listReservations, listTables } from "../../utils/api";
 import ErrorAlert from "../../layout/ErrorAlert";
 import ReservationList from "../../components/ReservationList/ReservationList";
 import TablesList from "../../components/TablesList/TablesList.js";
-import { NavLink } from "react-router-dom";
 import { today, next, previous } from "../../utils/date-time";
 
 /**
@@ -51,17 +50,13 @@ function Dashboard({ date }) {
   };
 
   const handleNext = () => {
-    console.log("currentDate", currentDate)
     let splitDate = currentDate
     if(currentDate.includes("T")){
        splitDate = currentDate.split("T")[0]
     }
     const newDate = next(splitDate);
-    console.log("newDate",newDate)
     setCurrentDate(newDate);
   };
-
-  console.log("currentDate dash", currentDate )
 
   return (
     <main>
