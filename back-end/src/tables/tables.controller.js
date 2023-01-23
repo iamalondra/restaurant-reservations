@@ -97,7 +97,7 @@ async function isReservationToday(req, res, next){
   if(date.startOf("day").isSame(today)){
     return next()
   }
-  return next({status:400, message: `can only seat reservations for ${today.format("LL")}. This reservation is for ${date.format("LL")}`})
+  return next({status:400, message: `We can only seat reservations for today, ${today.format("LL")}. This reservation is for ${date.format("LL")}`})
 }
 
 //TODO: check if reservation is seated 
