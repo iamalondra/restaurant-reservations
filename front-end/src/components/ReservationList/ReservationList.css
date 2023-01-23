@@ -1,0 +1,19 @@
+.reservation-list-container {
+  overflow: auto;
+  max-height: 80vh;
+  background-color: #e2e3e5;
+}
+
+/* .reservation-list-item {
+    height: 56px;
+} */
+
+.reservation-name {
+  min-width: 50%;
+}
+
+.reservation-info {
+  flex-grow:1;
+  min-width:0;
+  min-height: 38px;
+}

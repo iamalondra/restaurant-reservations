@@ -23,6 +23,7 @@ function NewTable() {
   }
   return (
     <main>
+      <h1>New Table</h1>
       <TableForm initialFormState={initialFormState} onSubmit={handleSubmit} />
     </main>
   )

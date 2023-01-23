@@ -42,37 +42,47 @@ function Dashboard({ date }) {
   };
 
   const handlePrevious = () => {
-    const newDate = previous(currentDate);
+    let splitDate = currentDate
+    if(currentDate.includes("T")){
+       splitDate = currentDate.split("T")[0]
+    }
+    const newDate = previous(splitDate);
     setCurrentDate(newDate);
   };
 
   const handleNext = () => {
-    const newDate = next(currentDate);
+    console.log("currentDate", currentDate)
+    let splitDate = currentDate
+    if(currentDate.includes("T")){
+       splitDate = currentDate.split("T")[0]
+    }
+    const newDate = next(splitDate);
+    console.log("newDate",newDate)
     setCurrentDate(newDate);
   };
+
+  console.log("currentDate dash", currentDate )
 
   return (
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date {currentDate}</h4>
+        <h2 className="mb-0">Reservations for {currentDate?.includes("T") ? currentDate.split("T")[0] : currentDate}</h2>
       </div>
-      <div>
-        <button onClick={handlePrevious}>previous</button>
-        <button onClick={handleToday}>today</button>
-        <button onClick={handleNext}>next</button>
+      <div className="mb-3">
+        <button onClick={handlePrevious} className="btn btn-light mr-2">previous</button>
+        <button onClick={handleToday} className="btn btn-light mr-2">today</button>
+        <button onClick={handleNext} className="btn btn-light">next</button>
       </div>
+      <ErrorAlert error={reservationsError} />
       <ReservationList
         reservations={reservations}
         onCancel={loadDashboard}
         currentDate={currentDate}
       />
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Tables</h4>
-      </div>
-      <TablesList tables={tables} onFinish={loadDashboard}/>
-      <ErrorAlert error={tablesError} />
-      <ErrorAlert error={reservationsError} />
+      <TablesList tables={tables} error={tablesError} onFinish={loadDashboard} />
+     
+   
     </main>
   );
 }

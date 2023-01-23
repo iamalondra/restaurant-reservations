@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ErrorAlert from "../../layout/ErrorAlert";
-import { createReservation } from "../../utils/api";
+import "./ReservationForm.css";
 
-function ReservationForm({onSubmit, initialFormState}) {
-  
+function ReservationForm({ onSubmit, initialFormState }) {
   //TODO: write  a use state for the formData
   const [formData, setFormData] = useState({ ...initialFormState });
 
@@ -28,8 +27,7 @@ function ReservationForm({onSubmit, initialFormState}) {
 
     try {
       //const newReservation = await createReservation({data: formattedFormData});
-      await onSubmit(formData)
-      
+      await onSubmit(formData);
     } catch (error) {
       console.log(error.message);
       setError(error);
@@ -44,77 +42,100 @@ function ReservationForm({onSubmit, initialFormState}) {
   };
 
   return (
-      <form onSubmit={handleSubmit}>
-       <ErrorAlert error={error}/> 
-        <label>
-          First name:
-          <input
-            id="first_name"
-            name="first_name"
-            type="text"
-            onChange={handleChange}
-            value={formData.first_name}
-          />
-        </label>
-        <br />
-        <label>
-          Last name:
-          <input
-            id="last_name"
-            name="last_name"
-            type="text"
-            onChange={handleChange}
-            value={formData.last_name}
-          />
-        </label>
-        <br />
-        <label>
-          Mobile number:
-          <input
-            id="mobile_number"
-            name="mobile_number"
-            type="tel"
-            onChange={handleChange}
-            value={formData.mobile_number}
-          />
-        </label>
-        <label>
-          Date of reservation:
-          <input
-            id="reservation_date"
-            name="reservation_date"
-            type="date"
-            onChange={handleChange}
-            value={formData.reservation_date}
-          />
-        </label>
-        <label>
-          Time of reservation:
-          <input
-            id="reservation_time"
-            name="reservation_time"
-            type="time"
-            onChange={handleChange}
-            value={formData.reservation_time}
-          />
-        </label>
-        <br />
-        <label>
-          Number of people:
-          <input
-            id="people"
-            name="people"
-            type="number"
-            onChange={handleChange}
-            value={formData.people}
-          />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-        <button type="reset" onClick={handleCancel}>
-          Cancel
-        </button>
+    <>
+      <h1>New Reservation</h1>
+      <ErrorAlert error={error} />
+      <form
+        className="reservation-form rounded p-3 mb-3 d-flex flex-column"
+        onSubmit={handleSubmit}
+      >
+        <div className="row m-0">
+          <div className="form-group col-xs-4 col-sm-6 p-0 pr-sm-2">
+            <label htmlFor="first_name">First name</label>
+            <input
+              id="first_name"
+              name="first_name"
+              type="text"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="first name"
+              value={formData.first_name}
+            />
+          </div>
+          <div className="form-group col-xs-4 col-sm-6 p-0 pr-sm-2">
+            <label htmlFor="last_name">Last name</label>
+            <input
+              id="last_name"
+              name="last_name"
+              type="text"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="last name"
+              value={formData.last_name}
+            />
+          </div>
+        </div>
+        <div className="row m-0">
+          <div className="form-group col-xs-4 col-sm-6 p-0 pr-sm-2">
+            <label htmlFor="mobile_number">Mobile number</label>
+            <input
+              id="mobile_number"
+              name="mobile_number"
+              type="tel"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="mobile number"
+              value={formData.mobile_number}
+            />
+          </div>
+          <div className="form-group col-xs-4 col-sm-6 p-0 pr-sm-2">
+            <label htmlFor="people">Number of people</label>
+            <input
+              id="people"
+              name="people"
+              type="number"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="number of people"
+              value={formData.people}
+            />
+          </div>
+        </div>
+
+        <div className="row m-0">
+          <div className="form-group col-xs-4 col-sm-6 p-0 pr-sm-2">
+            <label htmlFor="reservation_date">Date of reservation</label>
+            <input
+              id="reservation_date"
+              name="reservation_date"
+              type="date"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="reservation date"
+              value={formData.reservation_date}
+            />
+          </div>
+          <div className="form-group col-xs-4 col-sm-6 p-0 pr-sm-2">
+            <label htmlFor="reservation_time">Time of reservation</label>
+            <input
+              id="reservation_time"
+              name="reservation_time"
+              type="time"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="reservation time"
+              value={formData.reservation_time}
+            />
+          </div>
+        </div>
+        <div className="d-flex">
+          <button className="reservation-btn btn btn-primary mr-2" type="submit">Submit</button>
+          <button className="reservation-btn btn btn-danger" type="reset" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
       </form>
+    </>
   );
 }
 

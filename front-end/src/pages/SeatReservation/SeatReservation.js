@@ -1,15 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router";
 import ErrorAlert from "../../layout/ErrorAlert";
-import { singleReservation, listTables, seatReservation } from "../../utils/api";
+import {
+  singleReservation,
+  listTables,
+  seatReservation,
+} from "../../utils/api";
+import "./SeatForm.css";
 
 function SeatReservation() {
-  const [selectedTable, setSelectedTable] = useState("")
+  const [selectedTable, setSelectedTable] = useState("");
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
   const [reservation, setReservation] = useState(null);
   const [reservationError, setReservationError] = useState(null);
-  const [error, setError] = useState()
+  const [error, setError] = useState(null);
 
   const history = useHistory();
 
@@ -20,7 +25,10 @@ function SeatReservation() {
     const abortController = new AbortController();
     const tablesAbortController = new AbortController();
     listTables({ occupied: false }, tablesAbortController.signal)
-      .then(setTables)
+      .then((tables) => {
+        setTables(tables)
+        setSelectedTable(tables[0].table_id)
+      })
       .catch(setTablesError);
     singleReservation(reservation_id, abortController.signal)
       .then(setReservation)
@@ -31,42 +39,54 @@ function SeatReservation() {
     };
   }
 
-  const handleChange = ({target}) => {
-    const value = target.value
-    setSelectedTable(value)
-  }
+  const handleChange = ({ target }) => {
+    const value = target.value;
+    setSelectedTable(value);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if(!selectedTable){
-      return
+    if (!selectedTable) {
+      return;
     }
     try {
       //call backend
-      await seatReservation(reservation_id, selectedTable)
+      await seatReservation(reservation_id, selectedTable);
       //redirect to dashboard
-      history.push("/dashboard")
+      history.push("/dashboard");
     } catch (error) {
-      //show error 
-      setError(error.message)
+      //show error
+      setError(error);
     }
-  }
+  };
 
   return (
     <main>
       <h1>Seat Reservation</h1>
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={reservationError} />
-      <form onSubmit={handleSubmit}>
-        <label>
-          Table:
-          <select name="table_id" onChange={handleChange} value={selectedTable}>
+      <ErrorAlert error={error} />
+      <form
+        className="seat-form rounded p-3 mb-3 d-flex flex-column"
+        onSubmit={handleSubmit}
+      >
+        <div className="form-group">
+          <label htmlFor="table_id">Table:</label>
+          <select
+            className="form-control"
+            id="table_id"
+            name="table_id"
+            onChange={handleChange}
+            value={selectedTable}
+          >
             {tables.map((table) => (
-              <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
+              <option key={table.table_id} value={table.table_id}>
+                {table.table_name} - {table.capacity}
+              </option>
             ))}
           </select>
-        </label>
-        <button type="submit">seat</button>
+        </div>
+        <button className="seat-form-btn btn btn-primary" type="submit">seat</button>
       </form>
     </main>
   );

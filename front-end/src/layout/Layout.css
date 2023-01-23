@@ -6,3 +6,34 @@
 .layout-container {
   height: 100vh;
 }
+
+.menu-item:hover {
+  background-color: #656776;
+}
+
+.menu-item {
+  padding: 4px;
+
+}
+
+.menu-list {
+  width: 100%;
+}
+
+.menu-btn {
+  background-color: #393a44;
+  color: white;
+  border: none;
+  max-height: fit-content;
+  margin: auto 0; 
+}
+
+.menu-btn:hover {
+  background-color: #656776;
+}
+
+@media (min-width: 768px) {
+  .large-layout {
+    height: 100%; 
+  }
+}
